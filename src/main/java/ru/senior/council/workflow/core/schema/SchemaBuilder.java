@@ -3,15 +3,17 @@ package ru.senior.council.workflow.core.schema;
 import ru.senior.council.workflow.core.decorators.chains.DecoratorChain;
 import ru.senior.council.workflow.core.operations.Operation;
 import ru.senior.council.workflow.core.resilience.Retry;
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @RequiredArgsConstructor
 public class SchemaBuilder<O extends Operation> {
-    private final List<AbstractStep<O>> steps = new ArrayList<>();
+    private final List<Step<O>> steps = new ArrayList<>();
 
     private Retry retry;
     private DecoratorChain<O> decoratorChain;
@@ -25,14 +27,14 @@ public class SchemaBuilder<O extends Operation> {
         return this;
     }
 
-    public SchemaBuilder<O> step(AbstractStep<? extends O> step) {
-        steps.add((AbstractStep<O>) step);
+    public SchemaBuilder<O> step(Step<? extends O> step) {
+        steps.add((Step<O>) step);
         return this;
     }
 
-    public SchemaBuilder<O> step(AbstractStep<? extends O> step, String stepName) {
-        step.stepName(stepName);
-        steps.add((AbstractStep<O>) step);
+    public SchemaBuilder<O> step(Step<? extends O> step, String stepName) {
+        step.name(stepName);
+        steps.add((Step<O>) step);
         return this;
     }
 
@@ -42,6 +44,8 @@ public class SchemaBuilder<O extends Operation> {
     }
 
     public Schema<O> build() {
-        return new Schema<>(retry, steps, decoratorChain);
+        return nonNull(decoratorChain)
+                ? new Schema<>(retry, steps.stream().map(step -> decoratorChain.decorate(step)).toList())
+                : new Schema<>(retry, steps);
     }
 }

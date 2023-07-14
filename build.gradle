@@ -17,7 +17,9 @@ compileJava {
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
-dependencies {}
+test {
+	useJUnitPlatform()
+}
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.28'
@@ -32,4 +34,6 @@ dependencies {
 	testImplementation 'org.assertj:assertj-core:3.24.2'
 	testImplementation 'org.projectlombok:lombok:1.18.28'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
 }

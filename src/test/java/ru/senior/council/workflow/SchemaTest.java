@@ -4,7 +4,7 @@ import ru.senior.council.workflow.core.decorators.chains.BaseDecoratorChain;
 import ru.senior.council.workflow.core.operations.Operation;
 import ru.senior.council.workflow.core.schema.Schema;
 import ru.senior.council.workflow.core.schema.SchemaBuilder;
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 
 import org.junit.jupiter.api.Test;
 import ru.senior.council.workflow.core.steps.OperationResultType;
@@ -23,7 +23,7 @@ public class SchemaTest {
 
     @Test
     void test_schemaWithOnlyOneDummyStep_shouldBeOk() {
-        AbstractStep<TestOperation> updatePersonStep = new DummyStep();
+        Step<TestOperation> updatePersonStep = new DummyStep();
 
         Schema<Operation> schema = SchemaBuilder.builder()
                 .step(updatePersonStep, "updatePersonStep")
@@ -37,7 +37,7 @@ public class SchemaTest {
 
     @Test
     void test_schemaWithOnlyOneStep_shouldBeOk() {
-        AbstractStep<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
+        Step<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
 
         Schema<Operation> schema = SchemaBuilder.builder()
                 .step(enrichWithDataStep, "enrichWithDataStep")
@@ -52,8 +52,8 @@ public class SchemaTest {
 
     @Test
     void test_schemaWithTwoSteps_shouldBeOk() {
-        AbstractStep<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
-        AbstractStep<TestOperation> increaseCountStep = new IncreaseCountStep();
+        Step<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
+        Step<TestOperation> increaseCountStep = new IncreaseCountStep();
 
         Schema<Operation> schema = SchemaBuilder.builder()
                 .step(enrichWithDataStep, "enrichWithDataStep")
@@ -70,9 +70,9 @@ public class SchemaTest {
 
     @Test
     void test_schemaWithThreeStepsAndLastIsFailed_shouldBeFailed() {
-        AbstractStep<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
-        AbstractStep<TestOperation> increaseCountStep = new IncreaseCountStep();
-        AbstractStep<TestOperation> failStep = new FailStep();
+        Step<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
+        Step<TestOperation> increaseCountStep = new IncreaseCountStep();
+        Step<TestOperation> failStep = new FailStep();
 
         Schema<Operation> schema = SchemaBuilder.builder()
                 .step(enrichWithDataStep, "enrichWithDataStep")
@@ -90,9 +90,9 @@ public class SchemaTest {
 
     @Test
     void test_schemaWithDecoratorsAndThreeStepsAndLastIsFailed_shouldBeFailed() {
-        AbstractStep<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
-        AbstractStep<TestOperation> increaseCountStep = new IncreaseCountStep();
-        AbstractStep<TestOperation> failStep = new FailStep();
+        Step<TestOperation> enrichWithDataStep = new EnrichWithDataStep();
+        Step<TestOperation> increaseCountStep = new IncreaseCountStep();
+        Step<TestOperation> failStep = new FailStep();
 
         Schema<Operation> schema = SchemaBuilder.builder()
                 .withDecoratorChain(new BaseDecoratorChain<TestOperation>())

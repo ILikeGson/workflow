@@ -1,7 +1,7 @@
 package ru.senior.council.workflow.core.decorators;
 
 import ru.senior.council.workflow.core.operations.Operation;
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 import ru.senior.council.workflow.core.steps.StepResult;
 
 import java.time.Duration;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class TimeoutStepDecorator<O extends Operation> extends StepDecorator<O> {
     private final Duration timeout;
 
-    public TimeoutStepDecorator(AbstractStep<O> step, Duration timeout) {
+    public TimeoutStepDecorator(Step<O> step, Duration timeout) {
         super(step);
         this.timeout = timeout;
     }
@@ -30,7 +30,7 @@ public class TimeoutStepDecorator<O extends Operation> extends StepDecorator<O> 
         Duration difference = Duration.between(startTime, endTime);
 
         return timeout.minus(difference).toNanos() < 0
-                ? StepResult.failed(o, step.stepName())
-                : StepResult.ok(o, step.stepName());
+                ? StepResult.failed(o, step.name())
+                : StepResult.ok(o, step.name());
     }
 }

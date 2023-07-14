@@ -1,11 +1,11 @@
 package ru.senior.council.workflow;
 
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 import ru.senior.council.workflow.core.steps.StepResult;
 
-public class FailStep extends AbstractStep<TestOperation> {
+public class FailStep extends Step<TestOperation> {
     @Override
     public StepResult<TestOperation> apply(TestOperation testOperation) {
-        return StepResult.failed(testOperation, stepName());
+        return StepResult.failed(testOperation, name());
     }
 }

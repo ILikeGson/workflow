@@ -1,6 +1,6 @@
 package ru.senior.council.workflow.core.decorators;
 
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 import ru.senior.council.workflow.core.operations.Operation;
 import ru.senior.council.workflow.core.steps.StepResult;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CatchExceptionIfThrownDecorator<O extends Operation> extends StepDecorator<O> {
 
-    public CatchExceptionIfThrownDecorator(AbstractStep<O> decorator) {
+    public CatchExceptionIfThrownDecorator(Step<O> decorator) {
         super(decorator);
     }
 
@@ -17,8 +17,8 @@ public class CatchExceptionIfThrownDecorator<O extends Operation> extends StepDe
         try {
             return step.apply(o);
         } catch (Exception ex) {
-            log.error("Step '{}' was failed with error message: {}", step.stepName(), ex.getMessage());
-            return StepResult.failed(o, step.stepName());
+            log.error("Step '{}' was failed with error message: {}", step.name(), ex.getMessage());
+            return StepResult.failed(o, step.name());
         }
     }
 }

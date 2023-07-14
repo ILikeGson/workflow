@@ -8,9 +8,9 @@ import java.util.function.Supplier;
 
 @Getter
 @Setter
-public abstract class AbstractStep<O extends Operation> {
+public abstract class Step<O extends Operation> {
 
-    private String stepName;
+    private String name;
     private Supplier<FallbackResult> fallback;
 
     public abstract StepResult<O> apply(O o);

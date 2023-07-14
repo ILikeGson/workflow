@@ -1,18 +1,18 @@
 package ru.senior.council.workflow.core.decorators;
 
-import ru.senior.council.workflow.core.steps.AbstractStep;
+import ru.senior.council.workflow.core.steps.Step;
 import ru.senior.council.workflow.core.operations.Operation;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public abstract class StepDecorator<O extends Operation> extends AbstractStep<O> {
-    protected AbstractStep<O> step;
+public abstract class StepDecorator<O extends Operation> extends Step<O> {
+    protected Step<O> step;
 
-    public StepDecorator(AbstractStep<O> step) {
+    public StepDecorator(Step<O> step) {
         this.step = step;
         this.fallback(step.fallback());
-        this.stepName(step.stepName());
+        this.name(step.name());
     }
 }
