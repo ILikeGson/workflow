@@ -1,17 +1,16 @@
 package ru.senior.council.workflow.core.schema;
 
-import ru.senior.council.workflow.core.resilience.Try;
-import ru.senior.council.workflow.core.steps.OperationResponse;
-import ru.senior.council.workflow.core.resilience.Retry;
-import ru.senior.council.workflow.core.steps.ErrorDetails;
-import ru.senior.council.workflow.core.steps.FallbackResult;
-import ru.senior.council.workflow.core.operations.Operation;
-import ru.senior.council.workflow.core.operations.OperationProgressReport;
-import ru.senior.council.workflow.core.steps.Step;
-import ru.senior.council.workflow.core.steps.StepResult;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.util.Assert;
+import org.apache.commons.collections4.CollectionUtils;
+import ru.senior.council.workflow.core.operations.Operation;
+import ru.senior.council.workflow.core.operations.OperationProgressReport;
+import ru.senior.council.workflow.core.resilience.Retry;
+import ru.senior.council.workflow.core.resilience.Try;
+import ru.senior.council.workflow.core.steps.ErrorDetails;
+import ru.senior.council.workflow.core.steps.FallbackResult;
+import ru.senior.council.workflow.core.steps.Step;
+import ru.senior.council.workflow.core.steps.StepResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +33,10 @@ public class Schema<O extends Operation> {
 
 
     public OperationProgressReport apply(O o) {
-        Assert.notEmpty(steps, "Steps were not configured");
+        if (CollectionUtils.isEmpty(steps)) {
+            throw new IllegalArgumentException("Steps were not configured");
+        }
+
         ListIterator<Step<O>> iterator = steps.listIterator();
         OperationProgressReport report = new OperationProgressReport();
 
