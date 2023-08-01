@@ -1,8 +1,6 @@
 plugins {
 	id 'java'
 	id 'java-library'
-	id 'org.springframework.boot' version '3.1.1'
-	id 'io.spring.dependency-management' version "1.1.0"
 }
 
 group = 'ru.senior.council'
@@ -23,18 +21,19 @@ test {
 }
 
 dependencies {
-	compileOnly 'org.projectlombok:lombok:1.18.28'
-	compileOnly 'org.apache.commons:commons-lang3:3.12.0'
-	compileOnly 'org.apache.commons:commons-collections4:4.4'
-	compileOnly 'org.springframework.boot:spring-boot-starter-web'
+	api 'org.projectlombok:lombok:1.18.28'
+	api 'org.apache.commons:commons-lang3:3.12.0'
+	api 'org.apache.commons:commons-collections4:4.4'
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
 	testImplementation 'org.assertj:assertj-core:3.24.2'
 	testImplementation 'org.projectlombok:lombok:1.18.28'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+}
+
+wrapper {
+	gradleVersion = "8.2.1"
+	distributionType = Wrapper.DistributionType.ALL
 }
